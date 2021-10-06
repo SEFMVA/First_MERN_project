@@ -9,9 +9,9 @@ function File(props) {
     if (key != null) {
       const iv = prompt(`Input IV for ${props.name}`);
       if (iv != null) {
-        const enc = new TextEncoder();
-        const decodedIV = enc.encode(iv);
-
+        // const enc = new TextEncoder();
+        // const decodedIV = enc.encode(iv);
+        const decodedIV = Uint8Array.from(iv.split(","));
         const importedKey = await crypto.subtle.importKey(
           "jwk",
           JSON.parse(key),
@@ -20,22 +20,26 @@ function File(props) {
           ["encrypt", "decrypt"]
         );
 
-        const fetchData = new FormData();
-        fetchData.append("fileID", props.id);
-        fetchData.append("token", localStorage.getItem("authToken"));
         const response = await fetch(
           `http://127.0.0.1:8501/api/files/getFile`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: fetchData,
+            body: JSON.stringify({
+              fileID: props.id,
+              token: localStorage.getItem("authToken"),
+            }),
           }
         );
-        const blob = response.blob();
+
+        const blob = await response.blob();
         // const fileReader = new FileReader();
         // fileReader.readAsArrayBuffer(blob);
+
         const ciphertext = await blob.arrayBuffer();
-        const plaintext = await window.crypto.subtle.decrypt(
+
+        console.log(decodedIV);
+        const plaintext = await crypto.subtle.decrypt(
           {
             name: "AES-CBC",
             iv: decodedIV,
@@ -54,12 +58,13 @@ function File(props) {
       `Are you sure to delete ${props.name}?`
     );
     if (deleteConfirm) {
-      const fetchData = new FormData();
-      fetchData.append("fileID", props.id);
-      fetchData.append("token", localStorage.getItem("authToken"));
       fetch(`http://127.0.0.1:8501/api/files/deleteFile`, {
-        method: "DELETE",
-        body: fetchData,
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileID: props.id,
+          token: localStorage.getItem("authToken"),
+        }),
       });
     }
   }

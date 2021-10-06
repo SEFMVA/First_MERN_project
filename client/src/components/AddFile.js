@@ -28,7 +28,7 @@ function AddFile(params) {
 
   function processFile(file, iv) {
     const reader = new FileReader();
-
+    console.log(iv);
     reader.onload = async function (e) {
       try {
         const data = e.target.result;
@@ -43,9 +43,15 @@ function AddFile(params) {
           type: "text/plain",
         });
         saveAs(blob, `${file.name}.key`);
-        const enc = new TextDecoder("utf-8");
+        // const enc = new TextDecoder("utf-8");
+        // saveAs(
+        //   new Blob([enc.decode(iv)], {
+        //     type: "text/plain",
+        //   }),
+        //   `${file.name}.keyIV`
+        // );
         saveAs(
-          new Blob([enc.decode(iv)], {
+          new Blob([iv.toString()], {
             type: "text/plain",
           }),
           `${file.name}.keyIV`

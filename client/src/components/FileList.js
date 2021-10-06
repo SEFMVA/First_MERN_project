@@ -12,33 +12,45 @@ function FileList() {
   async function getUserFiles() {
     try {
       if (errorMessage !== false) setErrorMessage(false);
-      // const response = await fetch("http://127.0.0.1:8501/api/files/getFileList");
-      // const fileList = await response.json();
-      const fileList = {
-        0: {
-          name: "placeholder",
-          size: 0,
-          date: "1.1.2021",
-        },
-        1: {
-          name: "placeholder",
-          size: 0,
-          date: "1.1.2021",
-        },
-        2: {
-          name: "placeholder",
-          size: 0,
-          date: "1.1.2021",
-        },
-      };
-      setLoadedFileList(
-        Object.keys(fileList).map((key) => [Number(key), fileList[key]])
+      const response = await fetch(
+        "http://127.0.0.1:8501/api/files/getFileList",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token: localStorage.getItem("authToken"),
+          }),
+        }
       );
-      console.log(loadedFileList);
+      const jsonResponse = await response.json();
+
+      if (response.status !== 200) throw jsonResponse;
+      // const fileList = {
+      //   0: {
+      //     name: "placeholder",
+      //     size: 0,
+      //     date: "1.1.2021",
+      //   },
+      //   1: {
+      //     name: "placeholder",
+      //     size: 0,
+      //     date: "1.1.2021",
+      //   },
+      //   2: {
+      //     name: "placeholder",
+      //     size: 0,
+      //     date: "1.1.2021",
+      //   },
+      // };
+
+      const fileList = jsonResponse.message;
+
+      setLoadedFileList(fileList);
+
       setIsLoading(false);
     } catch (error) {
-      if (isLoading) setIsLoading(false);
       setErrorMessage(JSON.stringify(error));
+      if (isLoading) setIsLoading(false);
     }
   }
 
@@ -49,9 +61,13 @@ function FileList() {
   function createListFromFile(list) {
     return (
       <Container id="fileList">
-        {loadedFileList.map(([id, { name, size, date }]) => {
-          return <File id={id} name={name} size={size} date={date} />;
-        })}
+        {loadedFileList.length === 0
+          ? "You don't have any files..."
+          : loadedFileList.map(({ _id, name, size, date }) => {
+              return (
+                <File key={_id} id={_id} name={name} size={size} date={date} />
+              );
+            })}
       </Container>
     );
   }
