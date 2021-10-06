@@ -53,6 +53,7 @@ exports.signup = (req, res) => {
           email: email,
           password: password,
           isAdmin: isAdmin,
+          maxSpace: 10000,
         });
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(password, salt, (err, hash) => {

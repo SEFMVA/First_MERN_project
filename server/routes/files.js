@@ -16,6 +16,6 @@ router.put("/addFile", upload.any(), addFile);
 router.post("/getFile", getFile);
 router.post("/getFileList", getFileList);
 router.post("/getSpace", getSpace);
-router.delete("/deleteFile", deleteFile);
+router.post("/deleteFile", deleteFile);
 
 module.exports = router;

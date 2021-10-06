@@ -12,6 +12,7 @@ exports.createDefaultAdmin = () => {
           email: "example@example.com",
           password: password,
           isAdmin: true,
+          maxSpace: 0,
         });
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(password, salt, (err, hash) => {

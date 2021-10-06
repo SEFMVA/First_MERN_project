@@ -8,6 +8,7 @@ const app = express();
 
 const authRoutes = require("./routes/auth");
 const filesRoutes = require("./routes/files");
+const adminRoutes = require("./routes/admin");
 const { createDefaultAdmin } = require("./utils/createDefaultAdmin");
 
 console.log(process.env.DATABASE);
@@ -39,6 +40,7 @@ app.options("*", cors());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/files", filesRoutes);
+app.use("/api/admin", adminRoutes);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

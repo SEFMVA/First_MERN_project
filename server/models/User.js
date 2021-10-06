@@ -19,6 +19,10 @@ let userSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    maxSpace: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

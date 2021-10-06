@@ -14,7 +14,7 @@ let tokensSchema = new Schema(
   },
   {
     timestamps: true,
-    collection: "files",
+    collection: "tokens",
   }
 );
 module.exports = mongoose.model("Token", tokensSchema);
