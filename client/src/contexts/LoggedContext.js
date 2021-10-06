@@ -10,10 +10,13 @@ const LoggedContext = createContext({
 
 export function LoggedContextProvider(props) {
   const [token, setToken] = useState(false);
-  const [logged, setLogged] = useState(false);
+  const [logged, setLogged] = useState(
+    localStorage.getItem("logged") ? true : false
+  );
 
   function setTokenWrapper(token) {
     localStorage.setItem("authToken", token);
+    localStorage.setItem("logged", true);
     setToken((prev) => token);
     setLogged((prev) => true);
   }
