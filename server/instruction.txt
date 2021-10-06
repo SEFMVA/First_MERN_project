@@ -13,10 +13,10 @@ docker container exec -it mydatabase bash
 mongo -u root
 4. Create you desired database (ex: mydbone) with following command.
 
-use mydbone
+use test_database
 5. Then create a user to grant privileges to your database.
 
-db.createUser({ user: "username", pwd: "password", roles: [] })
+db.createUser({ user: "test_admin", pwd: "admin", roles: ["readWrite"] })
 
 this will create a user for your database and to see the users type show users on terminal. for more info : mongodb official
 6. Exit from the mongo shell by typing exit command. now you are on the bash.

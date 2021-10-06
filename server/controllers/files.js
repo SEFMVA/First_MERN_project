@@ -1,6 +1,6 @@
 const _ = require("lodash");
-const fs = require("fs/promises");
-
+// const fs = require("fs/promises");
+const fs = require("fs").promises;
 const Token = require("../models/Token");
 const File = require("../models/File");
 const User = require("../models/User");

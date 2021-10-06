@@ -2,7 +2,8 @@ const User = require("../models/User");
 const File = require("../models/File");
 const Token = require("../models/Token");
 
-const fs = require("fs/promises");
+// const fs = require("fs/promises");
+const fs = require("fs").promises;
 
 exports.getUserList = async (req, res) => {
   try {
